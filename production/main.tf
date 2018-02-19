@@ -18,3 +18,9 @@ module "key_pair" {
   key_pair_name   = "${var.key_pair_name}"
   public_key_path = "${var.public_key_path}"
 }
+
+
+# --------------------------------
+# Lookup Region Availability Zones
+# --------------------------------
+data "aws_availability_zones" "available" {}
