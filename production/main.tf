@@ -24,3 +24,22 @@ module "key_pair" {
 # Lookup Region Availability Zones
 # --------------------------------
 data "aws_availability_zones" "available" {}
+
+
+# ------------------------------
+# Lookup Domain Zone Information
+# ------------------------------
+data "aws_route53_zone" "my_domain" {
+  name = "${var.domain_name}"
+}
+
+
+# ---------------------------------
+# Lookup Domain SSl Certificate ARN
+# ---------------------------------
+data "aws_acm_certificate" "this" {
+  domain   = "${var.domain_name}"
+  statuses = ["ISSUED"]
+}
+
+
