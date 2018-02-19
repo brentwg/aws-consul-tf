@@ -43,3 +43,36 @@ data "aws_acm_certificate" "this" {
 }
 
 
+# ---
+# VPC
+# ---
+module "vpc" {
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=v1.23.0"
+
+  name                = "${var.vpc_name}"
+  cidr                = "${var.vpc_cidr}"
+  azs                 = "${data.aws_availability_zones.available.names}"
+  private_subnets     = "${var.vpc_private_subnets}"
+  public_subnets      = "${var.vpc_public_subnets}"
+
+  enable_dns_hostnames = "${var.vpc_enable_dns_hostnames}"
+  enable_dns_support   = "${var.vpc_enable_dns_support}"
+
+  enable_nat_gateway           = "${var.vpc_enable_nat_gateway}"
+  enable_s3_endpoint           = "${var.vpc_enable_s3_endpoint}"
+  enable_dynamodb_endpoint     = "${var.vpc_enable_dynamodb_endpoint}"
+
+  tags = {
+    Name        = "${var.vpc_name}"
+    Environment = "${var.environment}"
+    Terraform   = "true"
+  }
+
+  private_subnet_tags = {
+    SubnetType = "private"
+  }
+
+  public_subnet_tags = {
+    SubnetType = "public"
+  }
+}
