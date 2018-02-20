@@ -4,6 +4,8 @@ Terraform files used for orchestrating resources to host a scalable and self-hea
 
 ## TODO
 - ConsulSecGroup
+  - ssh access from bastion sec group
+  - tcp access (0 - 65535) from vpc cidr (refine this...) 
 - ConsulServerAsg
 - ConsulClientAsg
 - ConsulServerLC
