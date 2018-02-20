@@ -81,3 +81,77 @@ variable "vpc_enable_dynamodb_endpoint" {
   description = "enable dynamodb endpoint (true/false)"
   default     = false
 }
+
+
+# Bastion
+variable "bastion_ssh_port" {
+  description = "Port assigned for bastion SSH communication"
+  default     = "22"
+}
+
+variable "bastion_external_subnet_range" {
+  description = "List of subnets and/or IPs that can access the bastion"
+  type        = "list"
+  default     = []
+}
+
+variable "bastion_zone_ttl" {
+  description = "Bastion zone record set cache time to live (seconds)"
+  default     = ""
+}
+
+variable "bastion_image_id" {
+  description = "Bastion AMI image ID"
+  default     = ""
+}
+
+variable "bastion_instance_type" {
+  description = "Bastion instance type"
+  default     = ""
+}
+
+variable "bastion_key_name" {
+  description = "Bastion SSH key pair name"
+  default     = ""
+}
+
+variable "bastion_security_groups" {
+  description = "Bastion security group list"
+  type        = "list"
+  default     = []
+}
+
+variable "bastion_ebs_optimized" {
+  description = "Bastion EBS optimized (true/false)"
+  default     = "false"
+}
+
+variable "bastion_enable_monitoring" {
+  description = "Bastion enable detailed monitoring (true/false)"
+  default     = "false"
+}
+
+variable "bastion_volume_type" {
+  description = "Bastion root volume type"
+  default     = ""
+}
+
+variable "bastion_volume_size" {
+  description = "Bastion root volume size (GB)"
+  default     = ""
+}
+
+variable "bastion_max_size" {
+  description = "Bastion ASG maximum size"
+  default     = "1"
+}
+
+variable "bastion_min_size" {
+  description = "Bastion ASG minimum size"
+  default     = "1"
+}
+
+variable "bastion_desired_capacity" {
+  description = "Bastion ASG desired size"
+  default     = "1"
+}
