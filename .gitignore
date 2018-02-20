@@ -3,3 +3,4 @@ aws.env.*
 terraform.tfvars
 terraform.tfstate
 *.tfstate*
+cloudformation
