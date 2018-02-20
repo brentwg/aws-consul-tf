@@ -129,3 +129,17 @@ module "bastion" {
 
   bastion_asg_subnets      = ["${module.vpc.public_subnets}"]
 }
+
+
+# ---------------------
+# Consul Security Group
+# ---------------------
+module "consul_security_group" {
+  source = "../modules/consul-security-group"
+
+  environment            = "${var.environment}"
+  vpc_id                 = "${module.vpc.vpc_id}"
+  vpc_cidr_block         = "${module.vpc.vpc_cidr_block}"
+  ssh_port               = "${var.bastion_ssh_port}"
+  bastion_security_group = "${module.bastion_security_group.bastion_security_group_id}"
+}
