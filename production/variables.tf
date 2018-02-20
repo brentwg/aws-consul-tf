@@ -156,3 +156,35 @@ variable "bastion_desired_capacity" {
   description = "Bastion ASG desired size"
   default     = "1"
 }
+
+
+# Consul Security Group
+variable "server_rpc_port" {
+  description = "This is used by servers to handle incoming requests from other agents (TCP only)"
+  default     = "8300"
+}
+
+variable "serf_lan_port" {
+  description = "This is used to handle gossip in the LAN - required by all agents (TCP and UDP)"
+  default     = "8301"
+}
+
+variable "serf_wan_port" {
+  description = "This is used by servers to gossip over the WAN to other servers (TCP and UDP)"
+  default     = "8302"
+}
+
+variable "client_rpc_port" {
+  description = "This is used by all agents to handle RPC from the CLI (TCP only)"
+  default     = "8400"
+}
+
+variable "http_api_port" {
+  description = "This is used by clients to talk to the HTTP API (TCP only)"
+  default     = "8500"
+}
+
+variable "dns_interface_port" {
+  description = "Used to resolve DNS queries (TCP and UDP)"
+  default     = "8600"
+}

@@ -142,5 +142,12 @@ module "consul_security_group" {
   vpc_id                 = "${module.vpc.vpc_id}"
   vpc_cidr_block         = "${module.vpc.vpc_cidr_block}"
   ssh_port               = "${var.bastion_ssh_port}"
+  server_rpc_port        = "${var.server_rpc_port}"
+  serf_lan_port          = "${var.serf_lan_port}"
+  serf_wan_port          = "${var.serf_wan_port}"
+  client_rpc_port        = "${var.client_rpc_port}"
+  http_api_port          = "${var.http_api_port}"
+  dns_interface_port     = "${var.dns_interface_port}"
   bastion_security_group = "${module.bastion_security_group.bastion_security_group_id}"
 }
+

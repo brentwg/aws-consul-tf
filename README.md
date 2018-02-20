@@ -38,3 +38,9 @@ Consul requires up to 6 different ports to work properly, some on TCP, UDP, or b
 - HTTP API (Default 8500). This is used by clients to talk to the HTTP API. TCP only.
 
 - DNS Interface (Default 8600). Used to resolve DNS queries. TCP and UDP.
+
+Seems to be some abiguity about whether or not the following is also needed:
+
+- CLI RPC (Default 8400). This is used by all agents to handle RPC from the CLI. TCP only.
+
+For now, I am going to add this unless I see otherwise...
