@@ -104,7 +104,7 @@ module "bastion" {
 
   # Route53
   bastion_zone_id     = "${data.aws_route53_zone.my_domain.zone_id}"
-  bastion_domain_name = "bastion.${var.domain_name}"
+  bastion_domain_name = "bastion-${var.project_name}.${var.domain_name}"
   bastion_zone_ttl    = "${var.bastion_zone_ttl}"
 
   # Launch config
