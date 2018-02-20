@@ -1,7 +1,7 @@
 # -------------
 # Module Inputs
 # -------------
-variable "customer_name" {}
+variable "project_name" {}
 variable "environment" {}
 variable "vpc_id" {}
 variable "vpc_cidr_block" {}

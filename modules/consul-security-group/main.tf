@@ -2,7 +2,7 @@
 # Consul Security Group
 # ---------------------
 resource "aws_security_group" "this" {
-  name        = "${var.environment}_consul_sg"
+  name        = "${var.project_name}_${var.environment}_consul_sg"
   description = "${var.sg_description}"
   vpc_id      = "${var.vpc_id}"
 
@@ -27,7 +27,8 @@ resource "aws_security_group" "this" {
   }
 
   tags {
-    Name        = "${var.environment}_consul_sg"
+    Name        = "${var.project_name}_${var.environment}_consul_sg"
+    Project     = "${var.project_name}"
     Environment = "S{var.environment}"
     Terraform   = "true"
   }

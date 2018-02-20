@@ -84,7 +84,7 @@ module "vpc" {
 module "bastion_security_group" {
   source = "../modules/bastion-security-group"
 
-  customer_name         = "${var.customer_name}"
+  project_name         = "${var.project_name}"
   environment           = "${var.environment}"
   vpc_id                = "${module.vpc.vpc_id}"
   vpc_cidr_block        = "${module.vpc.vpc_cidr_block}"
@@ -99,7 +99,7 @@ module "bastion_security_group" {
 module "bastion" {
   source = "git::https://github.com/brentwg/terraform-aws-bastion.git?ref=1.0"
 
-  customer_name       = "${var.customer_name}"
+  customer_name       = "${var.project_name}"
   environment         = "${var.environment}"
 
   # Route53
@@ -137,6 +137,7 @@ module "bastion" {
 module "consul_security_group" {
   source = "../modules/consul-security-group"
 
+  project_name           = "${var.project_name}"
   environment            = "${var.environment}"
   vpc_id                 = "${module.vpc.vpc_id}"
   vpc_cidr_block         = "${module.vpc.vpc_cidr_block}"

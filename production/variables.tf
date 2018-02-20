@@ -17,8 +17,9 @@ variable "domain_name" {
   description = "Domain name for the project"
 }
 
-variable "customer_name" {
-  description = "The name of the client. Used for tagging and namespacing."
+
+variable "project_name" {
+  description = "The name of this project. Used for tagging and namespacing"
 }
 
 variable "environment" {

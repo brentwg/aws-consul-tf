@@ -2,7 +2,7 @@
 # Bastion Security Group
 # ----------------------
 resource "aws_security_group" "this" {
-  name        = "${var.customer_name}_${var.environment}_bastion_sg"
+  name        = "${var.project_name}_${var.environment}_bastion_sg"
   description = "Bastion Security Group"
   vpc_id      = "${var.vpc_id}"
 
@@ -35,7 +35,8 @@ resource "aws_security_group" "this" {
   }
 
   tags {
-    Name        = "${var.customer_name}_${var.environment}_bastion_sg"
+    Name        = "${var.project_name}_${var.environment}_bastion_sg"
+    Project     = "${var.project_name}"
     Environment = "S{var.environment}"
     Terraform   = "true"
   }
