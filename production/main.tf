@@ -8,7 +8,6 @@ provider "aws" {
 }
 
 
-
 # --------
 # Key Pair
 # --------
@@ -131,6 +130,17 @@ module "bastion" {
 }
 
 
+# -----------------
+# Consul Client IAM 
+# -----------------
+module "consul_client_iam" {
+  source = "../modules/consul-client-iam"
+
+  project_name = "${var.project_name}"
+  environment  = "${var.environment}"
+}
+
+
 # ---------------------
 # Consul Security Group
 # ---------------------
@@ -150,4 +160,3 @@ module "consul_security_group" {
   dns_interface_port     = "${var.dns_interface_port}"
   bastion_security_group = "${module.bastion_security_group.bastion_security_group_id}"
 }
-
