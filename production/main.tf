@@ -12,7 +12,7 @@ provider "aws" {
 # Key Pair
 # --------
 module "key_pair" {
-  source = "git::https://github.com/brentwg/terraform-aws-key-pair.git?ref=1.0"
+  source = "git::https://github.com/brentwg/terraform-aws-key-pair.git?ref=1.1"
 
   key_pair_name   = "${var.key_pair_name}"
   public_key_path = "${var.public_key_path}"
@@ -159,4 +159,22 @@ module "consul_security_group" {
   http_api_port          = "${var.http_api_port}"
   dns_interface_port     = "${var.dns_interface_port}"
   bastion_security_group = "${module.bastion_security_group.bastion_security_group_id}"
+}
+
+
+# -----------------
+# Consul Client ASG
+# -----------------
+data "template_file" "consul_client_userdata" {
+  template = "${file("consul-client-userdata.sh")}"
+
+  vars {
+    CFN_BOOTSTRAP_URL     = "${var.cfn_bootstrap_url}"
+    CONSUL_BOOTSTRAP_FILE = "${var.consul_bootstrap_file}"
+    CONSUL_BOOTSTRAP      = "${var.consul_bootstrap}${var.consul_bootstrap_file}"
+    BOOTSTRAP_PACKAGES    = "${var.bootstrap_packages}"
+    CLUSTER_NAME          = "${var.project_name}-${var.environment}"
+    S3BUCKET_NAME         = "${var.s3Bucket_name}"
+    S3BUCKET_PREFIX       = "${var.s3Bucket_prefix}"
+  }
 }

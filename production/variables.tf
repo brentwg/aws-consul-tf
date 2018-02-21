@@ -26,6 +26,36 @@ variable "environment" {
   description = "The programming environment - poc, dev, uat, prod, etc."
 }
 
+variable "cfn_bootstrap_url" {
+  description = "Userdata script - AWS Cloudformation bootstrap URL"
+  default     = "https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz"
+}
+
+variable "consul_bootstrap_file" {
+  description = "Userdata script - AWS Consul Client bootstrap file name"
+  default     = "consul_client_bootstrap.sh"
+}
+
+variable "consul_bootstrap" {
+  description = "Userdata script - AWS Consul Client bootstrap URL"
+  default     = "https://quickstart-reference.s3.amazonaws.com/hashicorp/consul/latest/scripts/"
+}
+
+variable "bootstrap_packages" {
+  description = "Userdata script - AWS Consul bootstrap required packages"
+  default     = "python-setuptools"
+}
+
+variable "s3Bucket_name" {
+  description = "Userdata script - AWS Quick Start bucket name"
+  default     = "quickstart-reference"
+}
+
+variable "s3Bucket_prefix" {
+  description = "Userdata script - AWS Quick Start bucket prefix"
+  default     = "hashicorp/consul/latest/"
+}
+
 
 # Key Pair
 variable "key_pair_name" {
