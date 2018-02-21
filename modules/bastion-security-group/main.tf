@@ -12,7 +12,7 @@ resource "aws_security_group" "this" {
     to_port     = "${var.ssh_port}"
     protocol    = "tcp"
     cidr_blocks = ["${var.external_subnet_range}"]
-    description = "Bastion Default Internet Ingress Rule"
+    #description = "Bastion Default Internet Ingress Rule"
   }
 
   # Bastion Default VPC Ingress Rule
@@ -21,7 +21,7 @@ resource "aws_security_group" "this" {
     to_port     = "${var.ssh_port}"
     protocol    = "tcp"
     cidr_blocks = ["${var.vpc_cidr_block}"]
-    description = "Bastion Default VPC Ingress Rule"
+    #description = "Bastion Default VPC Ingress Rule"
   }
 
   # Default Egress Rule
@@ -30,7 +30,7 @@ resource "aws_security_group" "this" {
     to_port     = "0"
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Default Egress Rule"
+    #description = "Default Egress Rule"
   }
 
   lifecycle {
