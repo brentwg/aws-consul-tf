@@ -11,7 +11,7 @@
 apt-get -y update
 
 # Install required packages
-apt-get instal -y ${BOOTSTRAP_PACKAGES}
+apt-get install -y ${BOOTSTRAP_PACKAGES}
 
 # Install the AWS cfn-init tools
 easy_install ${CFN_BOOTSTRAP_URL}
