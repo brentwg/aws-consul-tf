@@ -8,9 +8,6 @@ Terraform files used for orchestrating resources to host a scalable and self-hea
 - ConsulClientAsg
 - ConsulServerLC
 - ConsulClientLC
-- ConsulClientRole
-- ConsulClientPolicy
-- ConsulClientProfile
 - ConsulServerRole
 - ConsulServerPolicy
 - ConsulServerProfile
