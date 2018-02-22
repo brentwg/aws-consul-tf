@@ -31,16 +31,6 @@ variable "cfn_bootstrap_url" {
   default     = "https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz"
 }
 
-variable "consul_bootstrap_file" {
-  description = "Userdata script - AWS Consul Client bootstrap file name"
-  default     = "consul_client_bootstrap.sh"
-}
-
-variable "consul_bootstrap" {
-  description = "Userdata script - AWS Consul Client bootstrap URL"
-  default     = "https://quickstart-reference.s3.amazonaws.com/hashicorp/consul/latest/scripts/"
-}
-
 variable "bootstrap_packages" {
   description = "Userdata script - AWS Consul bootstrap required packages"
   default     = "python-setuptools"
@@ -54,6 +44,11 @@ variable "s3Bucket_name" {
 variable "s3Bucket_prefix" {
   description = "Userdata script - AWS Quick Start bucket prefix"
   default     = "hashicorp/consul/latest/"
+}
+
+variable "s3Bucket_client_file" {
+  description = "Userdata script - AWS Consul Client bootstrap file name"
+  default     = "consul_client_bootstrap.sh"
 }
 
 
@@ -217,4 +212,27 @@ variable "http_api_port" {
 variable "dns_interface_port" {
   description = "Used to resolve DNS queries (TCP and UDP)"
   default     = "8600"
+}
+
+
+# Consul Client ASG
+variable "client_image_id" {
+  description = "AWS AMI used for the Consul Client"
+  default     = "ami-c62eaabe"
+}
+
+variable "client_instance_type" {
+  description = "EC2 instance type used for the Consul client"
+  default     = "t2.medium"
+}
+
+variable "client_asg_min_size" {
+  description = "The minimum size of the auto scale group"
+}
+variable "client_asg_max_size" {
+  description = "The maximum size of the auto scale group"
+}
+
+variable "client_asg_desired_capacity" {
+  description = "The desired size of the auto scale group"
 }

@@ -138,6 +138,7 @@ module "consul_client_iam" {
 
   project_name = "${var.project_name}"
   environment  = "${var.environment}"
+  s3Bucket_arn = "${var.s3Bucket_name}/${var.s3Bucket_prefix}"
 }
 
 
@@ -170,11 +171,55 @@ data "template_file" "consul_client_userdata" {
 
   vars {
     CFN_BOOTSTRAP_URL     = "${var.cfn_bootstrap_url}"
-    CONSUL_BOOTSTRAP_FILE = "${var.consul_bootstrap_file}"
-    CONSUL_BOOTSTRAP      = "${var.consul_bootstrap}${var.consul_bootstrap_file}"
     BOOTSTRAP_PACKAGES    = "${var.bootstrap_packages}"
     CLUSTER_NAME          = "${var.project_name}-${var.environment}"
     S3BUCKET_NAME         = "${var.s3Bucket_name}"
     S3BUCKET_PREFIX       = "${var.s3Bucket_prefix}"
+    CONSUL_BOOTSTRAP_FILE = "${var.s3Bucket_client_file}"  
   }
+}
+
+module "consul_client_asg" {
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-autoscaling.git?ref=v2.1.0"
+
+  name = "consul_client_instance"
+
+  # Launch Configuration
+  lc_name              = "${var.project_name}-${var.environment}-client-lc"
+  image_id             = "${var.client_image_id}"
+  instance_type        = "${var.client_instance_type}"
+  iam_instance_profile = "${module.consul_client_iam.consul_client_profile_arn}"
+  key_name             = "${var.key_pair_name}"
+
+  security_groups = ["${module.consul_security_group.consul_security_group_id}"]
+
+  associate_public_ip_address = "false"
+
+  user_data = "${data.template_file.consul_client_userdata.rendered}"
+
+  # Auto Scaling Group
+  asg_name            = "${var.project_name}-${var.environment}-client-asg"
+  vpc_zone_identifier = ["${module.vpc.private_subnets}"]
+  min_size            = "${var.client_asg_min_size}"
+  max_size            = "${var.client_asg_max_size}"
+  desired_capacity    = "${var.client_asg_desired_capacity}"
+  health_check_type   = "EC2"
+
+  tags = [
+    {
+      key                 = "Name"
+      value               = "${var.project_name}_${var.environment}_asg"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Environment"
+      value               = "${var.environment}"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Terraform"
+      value               = "true"
+      propagate_at_launch = true
+    },
+  ]
 }
