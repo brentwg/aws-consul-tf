@@ -17,7 +17,7 @@ apt-get install -y ${BOOTSTRAP_PACKAGES}
 easy_install ${CFN_BOOTSTRAP_URL}
 
 # Run Consul client bootstrap script
-echo ${CONSUL_BOOTSTRAP}
-wget ${CONSUL_BOOTSTRAP}
+echo https://${S3BUCKET_NAME}.s3.amazonaws.com/${S3BUCKET_PREFIX}scripts/${CONSUL_BOOTSTRAP_FILE}
+wget https://${S3BUCKET_NAME}.s3.amazonaws.com/${S3BUCKET_PREFIX}scripts/${CONSUL_BOOTSTRAP_FILE}
 chmod +x ${CONSUL_BOOTSTRAP_FILE}
 ./${CONSUL_BOOTSTRAP_FILE} --consul_tag_key cluster_name --consul_tag_value ${CLUSTER_NAME} --s3bucket ${S3BUCKET_NAME} --s3prefix ${S3BUCKET_PREFIX}
