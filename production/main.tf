@@ -138,7 +138,18 @@ module "consul_client_iam" {
 
   project_name = "${var.project_name}"
   environment  = "${var.environment}"
-  s3Bucket_arn = "${var.s3Bucket_name}/${var.s3Bucket_prefix}"
+  #s3Bucket_arn = "${var.s3Bucket_name}/${var.s3Bucket_prefix}"
+}
+
+
+# -----------------
+# Consul Server IAM
+# -----------------
+module "consul_server_iam" {
+  source = "../modules/consul-server-iam"
+
+  project_name = "${var.project_name}"
+  environment  = "${var.environment}"
 }
 
 
@@ -223,3 +234,23 @@ module "consul_client_asg" {
     },
   ]
 }
+
+
+/*
+# -----------------
+# Consul Server ASG
+# -----------------
+data "template_file" "consul_server_userdata" {
+  template = "${file("consul-server-userdata.sh")}"
+
+  vars {
+    CFN_BOOTSTRAP_URL     = "${var.cfn_bootstrap_url}"
+    BOOTSTRAP_PACKAGES    = "${var.bootstrap_packages}"
+    CONSUL_EXPECT         = "${var.server_quorum_size}"
+    CLUSTER_NAME          = "${var.project_name}-${var.environment}"
+    S3BUCKET_NAME         = "${var.s3Bucket_name}"
+    S3BUCKET_PREFIX       = "${var.s3Bucket_prefix}"
+    CONSUL_BOOTSTRAP_FILE = "${var.s3Bucket_client_file}"  
+  }
+}
+*/

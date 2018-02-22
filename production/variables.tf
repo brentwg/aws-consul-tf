@@ -236,3 +236,10 @@ variable "client_asg_max_size" {
 variable "client_asg_desired_capacity" {
   description = "The desired size of the auto scale group"
 }
+
+
+# Consul Server ASG
+variable "server_quorum_size" {
+  description = ""
+  default     = "3"
+}
