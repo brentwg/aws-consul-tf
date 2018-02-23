@@ -183,7 +183,8 @@ data "template_file" "consul_client_userdata" {
   vars {
     CFN_BOOTSTRAP_URL     = "${var.cfn_bootstrap_url}"
     BOOTSTRAP_PACKAGES    = "${var.bootstrap_packages}"
-    CLUSTER_NAME          = "${var.project_name}-${var.environment}"
+    CONSUL_TAG_KEY        = "${var.consul_tag_key}"
+    CONSUL_TAG_VALUE      = "${var.consul_tag_value}"
     S3BUCKET_NAME         = "${var.s3Bucket_name}"
     S3BUCKET_PREFIX       = "${var.s3Bucket_prefix}"
     CONSUL_BOOTSTRAP_FILE = "${var.s3Bucket_client_file}"  
@@ -232,11 +233,15 @@ module "consul_client_asg" {
       value               = "true"
       propagate_at_launch = true
     },
+    {
+      key                 = "${var.consul_tag_key}"
+      value               = "${var.consul_tag_value}"
+      propagate_at_launch = true
+    },
   ]
 }
 
 
-/*
 # -----------------
 # Consul Server ASG
 # -----------------
@@ -247,10 +252,60 @@ data "template_file" "consul_server_userdata" {
     CFN_BOOTSTRAP_URL     = "${var.cfn_bootstrap_url}"
     BOOTSTRAP_PACKAGES    = "${var.bootstrap_packages}"
     CONSUL_EXPECT         = "${var.server_quorum_size}"
-    CLUSTER_NAME          = "${var.project_name}-${var.environment}"
+    CONSUL_TAG_KEY        = "${var.consul_tag_key}"
+    CONSUL_TAG_VALUE      = "${var.consul_tag_value}"
     S3BUCKET_NAME         = "${var.s3Bucket_name}"
     S3BUCKET_PREFIX       = "${var.s3Bucket_prefix}"
-    CONSUL_BOOTSTRAP_FILE = "${var.s3Bucket_client_file}"  
+    CONSUL_BOOTSTRAP_FILE = "${var.s3Bucket_server_file}"  
   }
 }
-*/
+
+module "consul_server_asg" {
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-autoscaling.git?ref=v2.1.0"
+
+  name = "consul_server_instance"
+
+  # Launch Configuration
+  lc_name              = "${var.project_name}-${var.environment}-server-lc"
+  image_id             = "${var.server_image_id}"
+  instance_type        = "${var.server_instance_type}"
+  iam_instance_profile = "${module.consul_server_iam.consul_server_profile_arn}"
+  key_name             = "${var.key_pair_name}"
+
+  security_groups = ["${module.consul_security_group.consul_security_group_id}"]
+
+  associate_public_ip_address = "false"
+
+  user_data = "${data.template_file.consul_server_userdata.rendered}"
+
+  # Auto Scaling Group
+  asg_name            = "${var.project_name}-${var.environment}-server-asg"
+  vpc_zone_identifier = ["${module.vpc.private_subnets}"]
+  min_size            = "${var.server_asg_min_size}"
+  max_size            = "${var.server_asg_max_size}"
+  desired_capacity    = "${var.server_asg_desired_capacity}"
+  health_check_type   = "EC2"
+
+  tags = [
+    {
+      key                 = "Name"
+      value               = "${var.project_name}_${var.environment}_asg"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Environment"
+      value               = "${var.environment}"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "Terraform"
+      value               = "true"
+      propagate_at_launch = true
+    },
+    {
+      key                 = "${var.consul_tag_key}"
+      value               = "${var.consul_tag_value}"
+      propagate_at_launch = true
+    },
+  ]
+}

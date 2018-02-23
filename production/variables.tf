@@ -51,6 +51,19 @@ variable "s3Bucket_client_file" {
   default     = "consul_client_bootstrap.sh"
 }
 
+variable "s3Bucket_server_file" {
+  description = "Userdata script - AWS Consul Server bootstrap file name"
+  default     = "consul_server_bootstrap.sh"
+}
+
+variable "consul_tag_key" {
+  description = "EC2 instance tag key to filter on when joining to other Consul nodes"
+}
+
+variable "consul_tag_value" {
+  description = "EC2 instance tag value to filter on when joining to other Consul nodes"
+}
+
 
 # Key Pair
 variable "key_pair_name" {
@@ -242,4 +255,25 @@ variable "client_asg_desired_capacity" {
 variable "server_quorum_size" {
   description = ""
   default     = "3"
+}
+
+variable "server_image_id" {
+  description = "AWS AMI used for the Consul server"
+  default     = "ami-c62eaabe"
+}
+
+variable "server_instance_type" {
+  description = "EC2 instance type used for the Consul server"
+  default     = "t2.medium"
+}
+
+variable "server_asg_min_size" {
+  description = "The minimum size of the auto scale group"
+}
+variable "server_asg_max_size" {
+  description = "The maximum size of the auto scale group"
+}
+
+variable "server_asg_desired_capacity" {
+  description = "The desired size of the auto scale group"
 }

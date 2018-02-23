@@ -23,7 +23,7 @@ chmod +x ${CONSUL_BOOTSTRAP_FILE}
 
 ./${CONSUL_BOOTSTRAP_FILE} \
   --consul_expect ${CONSUL_EXPECT} \
-  --consul_tag_key "Ref": "ConsulEc2RetryTagKey" \
-  --consul_tag_value "Ref": "AWS::StackName" \
-  --s3bucket "Ref": "QSS3BucketName" \
-  --s3prefix Ref": "QSS3KeyPrefix"
+  --consul_tag_key ${CONSUL_TAG_KEY} \
+  --consul_tag_value ${CONSUL_TAG_VALUE} \
+  --s3bucket ${S3BUCKET_NAME} \
+  --s3prefix ${S3BUCKET_PREFIX}
